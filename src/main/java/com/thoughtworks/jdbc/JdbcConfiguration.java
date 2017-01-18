@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
  * Created by Avishek Sen Gupta on 1/18/2017.
  */
 @Configuration
-public class JdbcCOnfiguration {
+public class JdbcConfiguration {
 
     @Autowired
     DataSource dataSource;
