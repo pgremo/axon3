@@ -1,0 +1,142 @@
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1484681324495-1" author="asengupta">
+        <createTable tableName="ASSOCIATION_VALUE_ENTRY">
+            <column name="ID" autoIncrement="true" type="BIGINT(19)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_B"/>
+            </column>
+            <column name="ASSOCIATION_KEY" type="VARCHAR(255)"/>
+            <column name="SAGA_ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SAGA_TYPE" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1484681324495-2" author="asengupta">
+        <createTable tableName="DOMAIN_EVENT_ENTRY">
+            <column name="GLOBAL_INDEX" autoIncrement="true" type="BIGINT(19)">
+                <constraints primaryKeyName="CONSTRAINT_8" primaryKey="true"/>
+            </column>
+            <column name="EVENT_IDENTIFIER" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="META_DATA" type="VARCHAR(255)"/>
+            <column name="PAYLOAD" type="VARCHAR(4000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PAYLOAD_REVISION" type="VARCHAR(255)"/>
+            <column name="PAYLOAD_TYPE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TIME_STAMP" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AGGREGATE_IDENTIFIER" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SEQUENCE_NUMBER" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1484681324495-3" author="asengupta">
+        <createTable tableName="SAGA_ENTRY">
+            <column name="SAGA_ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REVISION" type="VARCHAR(255)"/>
+            <column name="SAGA_TYPE" type="VARCHAR(255)"/>
+            <column name="SERIALIZED_SAGA" type="BLOB"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1484681324495-4" author="asengupta">
+        <createTable tableName="SNAPSHOT_EVENT_ENTRY">
+            <column name="EVENT_IDENTIFIER" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="META_DATA" type="VARCHAR(255)"/>
+            <column name="PAYLOAD" type="VARCHAR(4000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PAYLOAD_REVISION" type="VARCHAR(255)"/>
+            <column name="PAYLOAD_TYPE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TIME_STAMP" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AGGREGATE_IDENTIFIER" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SEQUENCE_NUMBER" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1484681324495-5" author="asnegupta">
+        <createTable tableName="SPIKE_VIEW">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1484681324495-6" author="asengupta">
+        <createTable tableName="TOKEN_ENTRY">
+            <column name="PROCESSOR_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SEGMENT" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OWNER" type="VARCHAR(255)"/>
+            <column name="TIMESTAMP" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TOKEN" type="BLOB"/>
+            <column name="TOKEN_TYPE" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1484681324495-7" author="asengupta">
+        <addPrimaryKey tableName="SPIKE_VIEW" columnNames="ID" constraintName="CONSTRAINT_2"/>
+    </changeSet>
+    <changeSet id="1484681324495-8" author="asengupta">
+        <addPrimaryKey tableName="TOKEN_ENTRY" columnNames="PROCESSOR_NAME, SEGMENT" constraintName="CONSTRAINT_7"/>
+    </changeSet>
+    <changeSet id="1484681324495-9" author="asengupta">
+        <addPrimaryKey tableName="SAGA_ENTRY" columnNames="SAGA_ID" constraintName="CONSTRAINT_BD"/>
+    </changeSet>
+    <changeSet id="1484681324495-10" author="asengupta">
+        <addPrimaryKey tableName="SNAPSHOT_EVENT_ENTRY" columnNames="AGGREGATE_IDENTIFIER, SEQUENCE_NUMBER, TYPE" constraintName="CONSTRAINT_E"/>
+    </changeSet>
+    <changeSet id="1484681324495-12" author="asengupta">
+        <addUniqueConstraint tableName="SNAPSHOT_EVENT_ENTRY" columnNames="EVENT_IDENTIFIED" constraintName="CONSTRAINT_SNAPSHOT_EVENT_ENTRY"/>
+    </changeSet>
+    <changeSet id="1484681324495-13" author="asengupta">
+        <addUniqueConstraint tableName="DOMAIN_EVENT_ENTRY" columnNames="EVENT_IDENTIFIER" constraintName="CONSTRAINT_DOMAIN_EVENT_ENTRY"/>
+    </changeSet>
+    <changeSet id="1484681324495-14" author="asengupta">
+        <createIndex tableName="ASSOCIATION_VALUE_ENTRY" indexName="ASSOCIATION_VALUE_ENTRY_INDEX">
+            <column name="SAGA_ID"/>
+            <column name="ASSOCIATION_KEY"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1484681324495-15" author="asengupta">
+        <createIndex tableName="DOMAIN_EVENT_ENTRY" indexName="DOMAIN_EVENT_ENTRY_INDEX" unique="true">
+            <column name="AGGREGATE_IDENTIFIER"/>
+            <column name="SEQUENCE_NUMBER"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
