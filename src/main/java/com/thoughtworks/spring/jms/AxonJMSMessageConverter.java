@@ -1,6 +1,7 @@
 package com.thoughtworks.spring.jms;
 
 import org.axonframework.eventhandling.EventMessage;
+import org.axonframework.eventhandling.GenericEventMessage;
 import org.axonframework.eventsourcing.DomainEventMessage;
 import org.axonframework.eventsourcing.GenericDomainEventMessage;
 import org.axonframework.messaging.MetaData;
@@ -34,7 +35,7 @@ public class AxonJMSMessageConverter implements MessageConverter {
         EventMessage eventMessage = (EventMessage) object;
         SerializedObject<byte[]> serializedObject = serializer.serialize(eventMessage.getPayload(), byte[].class);
         BytesMessage result = session.createBytesMessage();
-        result.writeByte(serializedObject.getData());
+        result.writeBytes(serializedObject.getData());
 
         for (Map.Entry<String, Object> s : eventMessage.getMetaData().entrySet()) {
             result.setObjectProperty("axon-metatdata-" + s.getKey(), s.getValue());
@@ -86,7 +87,7 @@ public class AxonJMSMessageConverter implements MessageConverter {
                     serialized,
                     () -> Instant.parse(timestamp));
         } else {
-            return new GenericDomainEventMessage<>(serialized, () -> Instant.parse(timestamp))
+            return new GenericEventMessage<>(serialized, () -> Instant.parse(timestamp));
         }
     }
 }

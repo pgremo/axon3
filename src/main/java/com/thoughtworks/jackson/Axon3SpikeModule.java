@@ -16,6 +16,6 @@ public class Axon3SpikeModule extends SimpleModule {
                 .setMixInAnnotation(AggregateCreatedEvent.class, AggregateCreatedEventMixin.class)
                 .setMixInAnnotation(FieldUpdatedEvent.class, FieldUpdatedEventMixin.class)
                 .setMixInAnnotation(Throwable.class, ThrowableMixin.class)
-                .setMixInAnnotation(StackTraceElement.class, StackTraceElementMixin.class)
+                .setMixInAnnotation(StackTraceElement.class, StackTraceElementMixin.class);
     }
 }

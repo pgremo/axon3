@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MessageConverter;
 
+import javax.jms.MessageProducer;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class AxonJMSMessageProcessor {
     private void send(List<? extends EventMessage<?>> events) {
         MessageConverter converter = template.getMessageConverter();
         template.execute(session -> {
-         session.createProducer(session.createTopic(destination));
+            MessageProducer producer = session.createProducer(session.createTopic(destination));
             for (EventMessage<?> event: events) {
                 producer.send(converter.toMessage(event, session));
             }

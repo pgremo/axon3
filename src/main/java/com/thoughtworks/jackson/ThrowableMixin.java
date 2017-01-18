@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.*;
 /**
  * Created by Avishek Sen Gupta on 1/18/2017.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.class, include = JsonTypeInfo.As.PROPERTY, property = "@class")
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @JsonIgnoreProperties({"localizedMessage", "suppressed"})
 public abstract class ThrowableMixin {
