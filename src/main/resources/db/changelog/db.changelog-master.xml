@@ -122,7 +122,7 @@
         <addPrimaryKey tableName="SNAPSHOT_EVENT_ENTRY" columnNames="AGGREGATE_IDENTIFIER, SEQUENCE_NUMBER, TYPE" constraintName="CONSTRAINT_E"/>
     </changeSet>
     <changeSet id="1484681324495-12" author="asengupta">
-        <addUniqueConstraint tableName="SNAPSHOT_EVENT_ENTRY" columnNames="EVENT_IDENTIFIED" constraintName="CONSTRAINT_SNAPSHOT_EVENT_ENTRY"/>
+        <addUniqueConstraint tableName="SNAPSHOT_EVENT_ENTRY" columnNames="EVENT_IDENTIFIER" constraintName="CONSTRAINT_SNAPSHOT_EVENT_ENTRY"/>
     </changeSet>
     <changeSet id="1484681324495-13" author="asengupta">
         <addUniqueConstraint tableName="DOMAIN_EVENT_ENTRY" columnNames="EVENT_IDENTIFIER" constraintName="CONSTRAINT_DOMAIN_EVENT_ENTRY"/>

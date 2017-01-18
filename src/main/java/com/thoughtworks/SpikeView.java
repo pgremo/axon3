@@ -1,10 +1,12 @@
 package com.thoughtworks;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
  * Created by Avishek Sen Gupta on 1/18/2017.
  */
+@Entity
 public class SpikeView {
     @Id
     private final String id;
