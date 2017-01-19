@@ -21,7 +21,6 @@ public class JMSProcessorConfiguration {
   private final EventBus eventBus;
   private final JmsTemplate template;
 
-  @Autowired
   public JMSProcessorConfiguration(EventBus eventBus, JmsTemplate template) {
     this.eventBus = eventBus;
     this.template = template;

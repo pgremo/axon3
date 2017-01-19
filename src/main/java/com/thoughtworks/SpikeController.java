@@ -12,19 +12,23 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RestController
 @RequestMapping(value = "/foo")
 public class SpikeController {
-    @Autowired
-    CommandGateway commandGateway;
+  private final CommandGateway commandGateway;
 
-    @RequestMapping(value = "/create/{id}", method = GET)
-    @ResponseStatus(OK)
-    @Transactional
-    public void fooBar(@PathVariable String id) {
-        commandGateway.sendAndWait(new CreateAggregateCommand(id));
-    }
+  @Autowired
+  public SpikeController(CommandGateway commandGateway) {
+    this.commandGateway = commandGateway;
+  }
 
-    @RequestMapping(value = "/update/{id}", method = GET)
-    @ResponseStatus(OK)
-    public void fooBarUpdated(@PathVariable String id) {
-        commandGateway.sendAndWait(new UpdateAggregateCommand(id));
-    }
+  @RequestMapping(value = "/create/{id}", method = GET)
+  @ResponseStatus(OK)
+  @Transactional
+  public void fooBar(@PathVariable String id) {
+    commandGateway.sendAndWait(new CreateAggregateCommand(id));
+  }
+
+  @RequestMapping(value = "/update/{id}", method = GET)
+  @ResponseStatus(OK)
+  public void fooBarUpdated(@PathVariable String id) {
+    commandGateway.sendAndWait(new UpdateAggregateCommand(id));
+  }
 }

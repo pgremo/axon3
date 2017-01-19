@@ -6,6 +6,8 @@ import org.axonframework.commandhandling.model.AggregateLifecycle;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.spring.stereotype.Aggregate;
 
+import static org.axonframework.commandhandling.model.AggregateLifecycle.*;
+
 @Aggregate
 public class SpikeAggregateRoot {
 
@@ -18,15 +20,14 @@ public class SpikeAggregateRoot {
     }
 
     @CommandHandler
-
     public SpikeAggregateRoot(CreateAggregateCommand createAggregateCommand) {
         System.out.println("Got command");
-        AggregateLifecycle.apply(new AggregateCreatedEvent(createAggregateCommand.getId(), fieldToBeUpdated));
+        apply(new AggregateCreatedEvent(createAggregateCommand.getId(), fieldToBeUpdated));
     }
 
     @CommandHandler
     public void updateField(UpdateAggregateCommand updateAggregateCommand) {
-        AggregateLifecycle.apply(new FieldUpdatedEvent(id));
+        apply(new FieldUpdatedEvent(id));
     }
 
     @EventSourcingHandler
