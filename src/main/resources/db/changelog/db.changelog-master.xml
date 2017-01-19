@@ -26,7 +26,7 @@
             <column name="EVENT_IDENTIFIER" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="META_DATA" type="VARCHAR(255)"/>
+            <column name="META_DATA" type="VARCHAR(4000)"/>
             <column name="PAYLOAD" type="VARCHAR(4000)">
                 <constraints nullable="false"/>
             </column>

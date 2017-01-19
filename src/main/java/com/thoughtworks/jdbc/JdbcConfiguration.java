@@ -18,45 +18,59 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Created by Avishek Sen Gupta on 1/18/2017.
- */
 @Configuration
 public class JdbcConfiguration {
 
-    @Autowired
-    DataSource dataSource;
+  @Autowired
+  DataSource dataSource;
 
-    @Autowired
-    TransactionManager transactionManager;
+  @Autowired
+  TransactionManager transactionManager;
 
-    @Autowired
-    Serializer serializer;
+  @Autowired
+  Serializer serializer;
 
-    @ConditionalOnMissingBean
-    @Bean
-    public EventStorageEngine eventStorageEngine() {
-        return new JdbcEventStorageEngine(serializer, null, null, null,
-                connectionProvider(), transactionManager, String.class,
-                new EventSchema(), null, null);
-    }
+  @ConditionalOnMissingBean
+  @Bean
+  public ConnectionProvider connectionProvider() {
+    return new SpringDataSourceConnectionProvider(dataSource);
+  }
 
-    @ConditionalOnMissingBean
-    @Bean
-    public ConnectionProvider connectionProvider() {
-        return new SpringDataSourceConnectionProvider(dataSource);
-    }
+  @ConditionalOnMissingBean
+  @Bean
+  public EventStorageEngine eventStorageEngine() {
+    return new JdbcEventStorageEngine(serializer,
+      null,
+      null,
+      null,
+      connectionProvider(),
+      transactionManager,
+      String.class,
+      EventSchema.builder()
+        .withEventTable("DOMAIN_EVENT_ENTRY")
+        .withEventIdentifierColumn("EVENT_IDENTIFIER")
+        .withGlobalIndexColumn("GLOBAL_INDEX")
+        .withMetaDataColumn("META_DATA")
+        .withPayloadRevisionColumn("PAYLOAD_REVISION")
+        .withPayloadTypeColumn("PAYLOAD_TYPE")
+        .withTimestampColumn("TIME_STAMP")
+        .withAggregateIdentifierColumn("AGGREGATE_IDENTIFIER")
+        .withSequenceNumberColumn("SEQUENCE_NUMBER")
+        .build(),
+      null,
+      null);
+  }
 
-    @ConditionalOnMissingBean
-    @Bean
-    public TokenStore tokenStore() {
-        return new JdbcTokenStore(connectionProvider(), serializer);
-    }
+  @ConditionalOnMissingBean
+  @Bean
+  public TokenStore tokenStore() {
+    return new JdbcTokenStore(connectionProvider(), serializer);
+  }
 
-    @ConditionalOnMissingBean
-    @Bean
-    public SagaStore sagaStore() {
-        return new JdbcSagaStore(connectionProvider(), new GenericSagaSqlSchema(), serializer);
-    }
+  @ConditionalOnMissingBean
+  @Bean
+  public SagaStore sagaStore() {
+    return new JdbcSagaStore(connectionProvider(), new GenericSagaSqlSchema(), serializer);
+  }
 
 }

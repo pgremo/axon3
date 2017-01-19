@@ -3,17 +3,17 @@ package com.thoughtworks;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-/**
- * Created by Avishek Sen Gupta on 1/18/2017.
- */
 @Entity
 public class SpikeView {
-    @Id
-    private final String id;
-    private final String value;
+  @Id
+  private String id;
+  private String value;
 
-    public SpikeView(String id, String value) {
-        this.id = id;
-        this.value = value;
-    }
+  public SpikeView() {
+  }
+
+  public SpikeView(String id, String value) {
+    this.id = id;
+    this.value = value;
+  }
 }

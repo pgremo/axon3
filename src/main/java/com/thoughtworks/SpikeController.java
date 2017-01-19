@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-/**
- * Created by Avishek Sen Gupta on 1/18/2017.
- */
 @RestController
 @RequestMapping(value = "/foo")
 public class SpikeController {

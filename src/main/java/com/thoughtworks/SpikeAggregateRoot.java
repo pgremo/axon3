@@ -6,9 +6,6 @@ import org.axonframework.commandhandling.model.AggregateLifecycle;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.spring.stereotype.Aggregate;
 
-/**
- * Created by Avishek Sen Gupta on 1/18/2017.
- */
 @Aggregate
 public class SpikeAggregateRoot {
 

@@ -20,9 +20,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-/**
- * Created by Avishek Sen Gupta on 1/18/2017.
- */
 public class AxonJMSMessageConverter implements MessageConverter {
     private Serializer serializer;
 

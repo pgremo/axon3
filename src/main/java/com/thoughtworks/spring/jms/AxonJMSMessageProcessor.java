@@ -10,10 +10,6 @@ import org.springframework.jms.support.converter.MessageConverter;
 import javax.jms.MessageProducer;
 import java.util.List;
 
-/**
- * Created by Avishek Sen Gupta on 1/18/2017.
- */
-@ConfigurationProperties(prefix = "eventBus.out")
 public class AxonJMSMessageProcessor {
     private SubscribableMessageSource<EventMessage<?>> messageSource;
     private final JmsTemplate template;
@@ -26,7 +22,7 @@ public class AxonJMSMessageProcessor {
         this.template = template;
     }
 
-    private void setDestination(String destination) {
+    public void setDestination(String destination) {
         this.destination = destination;
     }
 
