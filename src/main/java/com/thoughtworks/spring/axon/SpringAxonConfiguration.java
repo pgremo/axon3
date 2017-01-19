@@ -2,7 +2,6 @@ package com.thoughtworks.spring.axon;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.LoggingMessageMonitor;
-import com.thoughtworks.spring.jms.AxonJMSMessageSource;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.SimpleCommandBus;
 import org.axonframework.common.transaction.TransactionManager;
@@ -13,7 +12,6 @@ import org.axonframework.serialization.Serializer;
 import org.axonframework.serialization.json.JacksonSerializer;
 import org.axonframework.spring.config.AxonConfiguration;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,12 +32,6 @@ public class SpringAxonConfiguration {
   @Bean
   Serializer serializer() {
     return new JacksonSerializer(objectMapper);
-  }
-
-  @Bean
-  @ConditionalOnClass(AxonJMSMessageSource.class)
-  AxonJMSMessageSource jmsMessageSource() {
-    return new AxonJMSMessageSource();
   }
 
   @Bean
