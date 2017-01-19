@@ -1,15 +1,17 @@
 package com.thoughtworks;
 
-import org.axonframework.eventhandling.EventHandler;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AggregateCreateEventListener {
-    @Autowired
-    SpikeViewRepository spikeViewRepository;
+    private SpikeViewRepository spikeViewRepository;
 
-    @EventHandler
+    public AggregateCreateEventListener(SpikeViewRepository spikeViewRepository) {
+        this.spikeViewRepository = spikeViewRepository;
+    }
+
+    @ServiceActivator(inputChannel = "event-in")
     public void handle(AggregateCreatedEvent aggregateCreatedEvent) {
         spikeViewRepository.save(new SpikeView(aggregateCreatedEvent.getId(),
                 aggregateCreatedEvent.getValue()));

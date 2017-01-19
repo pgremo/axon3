@@ -11,7 +11,7 @@ import javax.jms.MessageProducer;
 import java.util.List;
 
 public class AxonJMSMessageProcessor {
-    private SubscribableMessageSource<EventMessage<?>> messageSource;
+    private final SubscribableMessageSource<EventMessage<?>> messageSource;
     private final JmsTemplate template;
     private String destination;
     private Registration eventBusRegistration;
