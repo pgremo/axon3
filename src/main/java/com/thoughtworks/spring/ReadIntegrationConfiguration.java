@@ -1,11 +1,14 @@
 package com.thoughtworks.spring;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
+import org.springframework.integration.dsl.channel.MessageChannels;
+import org.springframework.integration.dsl.channel.PublishSubscribeChannelSpec;
 import org.springframework.integration.dsl.core.Pollers;
 import org.springframework.integration.dsl.jms.Jms;
 import org.springframework.integration.scheduling.PollerMetadata;
@@ -13,20 +16,24 @@ import org.springframework.jms.support.SimpleJmsHeaderMapper;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessagingMessageConverter;
+import org.springframework.messaging.MessageChannel;
 
 import javax.jms.ConnectionFactory;
+
+import static org.springframework.integration.scheduling.PollerMetadata.*;
 
 @Configuration
 public class ReadIntegrationConfiguration {
   private ConnectionFactory connectionFactory;
   private ObjectMapper objectMapper;
 
+  @Autowired
   public ReadIntegrationConfiguration(ConnectionFactory connectionFactory, ObjectMapper objectMapper) {
     this.connectionFactory = connectionFactory;
     this.objectMapper = objectMapper;
   }
 
-  @Bean(name = PollerMetadata.DEFAULT_POLLER)
+  @Bean(name = DEFAULT_POLLER)
   public PollerMetadata poller() {
     return Pollers.fixedRate(500).get();
   }
@@ -37,8 +44,13 @@ public class ReadIntegrationConfiguration {
       .from(Jms.inboundAdapter(connectionFactory)
         .configureJmsTemplate(t -> t.deliveryPersistent(true).jmsMessageConverter(messageConverter()))
         .destination(destination))
-      .channel("event-in")
+      .channel(eventIn())
       .get();
+  }
+
+  @Bean
+  public MessageChannel eventIn(){
+    return MessageChannels.publishSubscribe("event-in").get();
   }
 
   @Bean

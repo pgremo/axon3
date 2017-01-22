@@ -1,5 +1,6 @@
 package com.thoughtworks;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Component;
 
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class AggregateCreateEventListener {
     private SpikeViewRepository spikeViewRepository;
 
+    @Autowired
     public AggregateCreateEventListener(SpikeViewRepository spikeViewRepository) {
         this.spikeViewRepository = spikeViewRepository;
     }
