@@ -1,7 +1,7 @@
-package com.thoughtworks.spring.axon;
+package spike.spring.axon;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thoughtworks.LoggingMessageMonitor;
+import spike.LoggingMessageMonitor;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.SimpleCommandBus;
 import org.axonframework.common.transaction.TransactionManager;

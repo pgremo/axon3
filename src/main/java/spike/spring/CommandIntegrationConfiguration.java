@@ -1,4 +1,4 @@
-package com.thoughtworks.spring;
+package spike.spring;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.axonframework.eventhandling.EventBus;
@@ -14,7 +14,6 @@ import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.jms.Jms;
-import org.springframework.integration.dsl.jms.JmsOutboundGatewaySpec;
 import org.springframework.integration.jms.JmsOutboundGateway;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.jms.support.JmsHeaders;
