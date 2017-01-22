@@ -13,19 +13,18 @@ import org.axonframework.eventsourcing.eventstore.jdbc.EventSchema;
 import org.axonframework.eventsourcing.eventstore.jdbc.JdbcEventStorageEngine;
 import org.axonframework.serialization.Serializer;
 import org.axonframework.spring.jdbc.SpringDataSourceConnectionProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class JdbcConfiguration {
-
   private final DataSource dataSource;
-
   private final TransactionManager transactionManager;
-
   private final Serializer serializer;
 
+  @Autowired
   public JdbcConfiguration(DataSource dataSource, TransactionManager transactionManager, Serializer serializer) {
     this.dataSource = dataSource;
     this.transactionManager = transactionManager;
