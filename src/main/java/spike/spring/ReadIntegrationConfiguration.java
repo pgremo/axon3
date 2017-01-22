@@ -1,4 +1,4 @@
-package com.thoughtworks.spring;
+package spike.spring;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.channel.MessageChannels;
-import org.springframework.integration.dsl.channel.PublishSubscribeChannelSpec;
 import org.springframework.integration.dsl.core.Pollers;
 import org.springframework.integration.dsl.jms.Jms;
 import org.springframework.integration.scheduling.PollerMetadata;
@@ -48,9 +47,9 @@ public class ReadIntegrationConfiguration {
       .get();
   }
 
-  @Bean
-  public MessageChannel eventIn(){
-    return MessageChannels.publishSubscribe("event-in").get();
+  @Bean(name = "event-in")
+  public MessageChannel eventIn() {
+    return MessageChannels.publishSubscribe().get();
   }
 
   @Bean

@@ -1,4 +1,4 @@
-package com.thoughtworks.jackson.axon;
+package spike.jackson.axon;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

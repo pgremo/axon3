@@ -1,4 +1,4 @@
-package com.thoughtworks;
+package spike;
 
 import org.axonframework.messaging.Message;
 import org.axonframework.monitoring.MessageMonitor;

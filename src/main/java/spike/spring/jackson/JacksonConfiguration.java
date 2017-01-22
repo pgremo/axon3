@@ -1,4 +1,4 @@
-package com.thoughtworks.spring.jackson;
+package spike.spring.jackson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
