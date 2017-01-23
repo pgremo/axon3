@@ -1,4 +1,4 @@
-package spike;
+package spike.axon;
 
 import org.axonframework.messaging.Message;
 import org.axonframework.monitoring.MessageMonitor;

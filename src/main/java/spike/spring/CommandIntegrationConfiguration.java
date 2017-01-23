@@ -16,10 +16,8 @@ import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.jms.Jms;
 import org.springframework.integration.jms.JmsOutboundGateway;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
-import org.springframework.jms.support.JmsHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.support.ChannelInterceptorAdapter;
 import org.springframework.messaging.support.GenericMessage;
 
 import javax.jms.ConnectionFactory;
@@ -27,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.integration.dsl.support.Transformers.toJson;
+import static org.springframework.integration.mapping.support.JsonHeaders.TYPE_ID;
 
 @Configuration
 public class CommandIntegrationConfiguration {
@@ -53,7 +52,7 @@ public class CommandIntegrationConfiguration {
     return IntegrationFlows
       .from(eventOut())
       .transform(toJson(new Jackson2JsonObjectMapper(objectMapper)))
-      .enrichHeaders(h -> h.headerFunction(JmsHeaders.TYPE, x -> x.getHeaders().get("axon-message-type")))
+      .enrichHeaders(h -> h.headerFunction(TYPE_ID, x -> ((Class) x.getHeaders().get(TYPE_ID)).getName(), true))
       .handle(messageHandler)
       .get();
   }
