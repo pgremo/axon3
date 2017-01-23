@@ -1,7 +1,7 @@
 package spike.spring.axon;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import spike.LoggingMessageMonitor;
+import spike.axon.LoggingMessageMonitor;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.SimpleCommandBus;
 import org.axonframework.common.transaction.TransactionManager;
@@ -47,7 +47,7 @@ public class SpringAxonConfiguration {
 
   @Qualifier("localSegment")
   @Bean
-  public CommandBus commandBus() {
+  CommandBus commandBus() {
     SimpleCommandBus commandBus = new SimpleCommandBus(transactionManager, messageMonitor());
     commandBus.registerHandlerInterceptor(new CorrelationDataInterceptor<>(axonConfiguration.correlationDataProviders()));
     return commandBus;
