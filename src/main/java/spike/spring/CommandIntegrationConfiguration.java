@@ -19,6 +19,7 @@ import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.jms.support.JmsHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.ChannelInterceptorAdapter;
 import org.springframework.messaging.support.GenericMessage;
 
 import javax.jms.ConnectionFactory;
@@ -50,7 +51,7 @@ public class CommandIntegrationConfiguration {
       .get();
     messageHandler.setRequiresReply(false);
     return IntegrationFlows
-      .from(outbound())
+      .from(eventOut())
       .transform(toJson(new Jackson2JsonObjectMapper(objectMapper)))
       .enrichHeaders(h -> h.headerFunction(JmsHeaders.TYPE, x -> x.getHeaders().get("axon-message-type")))
       .handle(messageHandler)
@@ -58,13 +59,15 @@ public class CommandIntegrationConfiguration {
   }
 
   @Bean
-  public MessageChannel outbound() {
-    return MessageChannels.direct().get();
+  public MessageChannel eventOut() {
+    return MessageChannels
+      .direct()
+      .get();
   }
 
   @Bean
   public OutboundEventMessageChannelAdapter axonToSpring() {
-    return new OutboundEventMessageChannelAdapter(eventBus, outbound()) {
+    return new OutboundEventMessageChannelAdapter(eventBus, eventOut()) {
       @Override
       protected Message<?> transform(EventMessage<?> event) {
         Map<String, Object> headers = new HashMap<>(event.getMetaData());

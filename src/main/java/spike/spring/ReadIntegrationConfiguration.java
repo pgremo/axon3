@@ -19,7 +19,7 @@ import org.springframework.messaging.MessageChannel;
 
 import javax.jms.ConnectionFactory;
 
-import static org.springframework.integration.scheduling.PollerMetadata.*;
+import static org.springframework.integration.scheduling.PollerMetadata.DEFAULT_POLLER;
 
 @Configuration
 public class ReadIntegrationConfiguration {
@@ -49,7 +49,9 @@ public class ReadIntegrationConfiguration {
 
   @Bean(name = "event-in")
   public MessageChannel eventIn() {
-    return MessageChannels.publishSubscribe().get();
+    return MessageChannels
+      .publishSubscribe()
+      .get();
   }
 
   @Bean

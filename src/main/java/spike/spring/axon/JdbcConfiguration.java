@@ -1,4 +1,4 @@
-package spike.spring.jdbc;
+package spike.spring.axon;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.axonframework.common.jdbc.ConnectionProvider;
