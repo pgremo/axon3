@@ -8,26 +8,23 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 class TransactionChannelInterceptor extends ChannelInterceptorAdapter {
-  private TransactionStatus transaction;
-  private PlatformTransactionManager transactionManager;
+  private static final DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+  private TransactionStatus status;
+  private PlatformTransactionManager manager;
 
-  TransactionChannelInterceptor(PlatformTransactionManager transactionManager) {
-    this.transactionManager = transactionManager;
+  TransactionChannelInterceptor(PlatformTransactionManager manager) {
+    this.manager = manager;
   }
 
   @Override
   public Message<?> preSend(Message<?> message, MessageChannel channel) {
-    transaction = transactionManager.getTransaction(new DefaultTransactionDefinition());
-    return super.preSend(message, channel);
+    status = manager.getTransaction(definition);
+    return message;
   }
 
   @Override
   public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {
-    if (ex == null) {
-      transactionManager.commit(transaction);
-    } else {
-      transactionManager.rollback(transaction);
-    }
-    super.afterSendCompletion(message, channel, sent, ex);
+    if (ex == null) manager.commit(status);
+    else manager.rollback(status);
   }
 }
