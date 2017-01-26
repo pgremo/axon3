@@ -44,7 +44,7 @@ public class SpringCloudConfiguration {
 
   @Bean
   public CommandRouter commandRouter() {
-    return new SpringCloudCommandRouter(discoveryClient, routingStrategy(), serializer);
+    return new SpringCloudCommandRouter(discoveryClient, routingStrategy());
   }
 
   @Bean
