@@ -1,43 +1,36 @@
 package spike.spring.axon;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import spike.axon.LoggingMessageMonitor;
-import org.axonframework.commandhandling.CommandBus;
-import org.axonframework.commandhandling.SimpleCommandBus;
+import org.axonframework.commandhandling.disruptor.DisruptorCommandBus;
+import org.axonframework.commandhandling.disruptor.DisruptorConfiguration;
+import org.axonframework.commandhandling.model.Repository;
 import org.axonframework.common.transaction.TransactionManager;
+import org.axonframework.eventsourcing.GenericAggregateFactory;
+import org.axonframework.eventsourcing.eventstore.EventStore;
 import org.axonframework.messaging.Message;
 import org.axonframework.messaging.interceptors.CorrelationDataInterceptor;
 import org.axonframework.monitoring.MessageMonitor;
-import org.axonframework.serialization.AnnotationRevisionResolver;
-import org.axonframework.serialization.RevisionResolver;
-import org.axonframework.serialization.Serializer;
-import org.axonframework.serialization.json.JacksonSerializer;
 import org.axonframework.spring.config.AxonConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import spike.SpikeAggregateRoot;
+import spike.axon.LoggingMessageMonitor;
+
+import static java.util.Collections.singletonList;
 
 @Configuration
 public class SpringAxonConfiguration {
   private final AxonConfiguration axonConfiguration;
-  private final ObjectMapper objectMapper;
   private final TransactionManager transactionManager;
 
+  private final EventStore eventStore;
+
   @Autowired
-  public SpringAxonConfiguration(AxonConfiguration axonConfiguration, ObjectMapper objectMapper, TransactionManager transactionManager) {
+  public SpringAxonConfiguration(AxonConfiguration axonConfiguration, TransactionManager transactionManager, EventStore eventStore) {
     this.axonConfiguration = axonConfiguration;
-    this.objectMapper = objectMapper;
     this.transactionManager = transactionManager;
-  }
-
-  @Bean RevisionResolver revisionResolver(){
-    return new AnnotationRevisionResolver();
-  }
-
-  @Bean
-  Serializer serializer() {
-    return new JacksonSerializer(objectMapper, revisionResolver());
+    this.eventStore = eventStore;
   }
 
   @Bean
@@ -47,10 +40,16 @@ public class SpringAxonConfiguration {
 
   @Qualifier("localSegment")
   @Bean
-  CommandBus commandBus() {
-    SimpleCommandBus commandBus = new SimpleCommandBus(transactionManager, messageMonitor());
-    commandBus.registerHandlerInterceptor(new CorrelationDataInterceptor<>(axonConfiguration.correlationDataProviders()));
-    return commandBus;
+  DisruptorCommandBus commandBus() {
+    DisruptorConfiguration configuration = new DisruptorConfiguration()
+      .setTransactionManager(transactionManager)
+      .setInvokerInterceptors(singletonList(new CorrelationDataInterceptor<>(axonConfiguration.correlationDataProviders())))
+      .setMessageMonitor(messageMonitor());
+    return new DisruptorCommandBus(eventStore, configuration);
   }
 
+  @Bean
+  Repository<SpikeAggregateRoot> spikeAggregateRootRepository() {
+    return commandBus().createRepository(new GenericAggregateFactory<>(SpikeAggregateRoot.class));
+  }
 }

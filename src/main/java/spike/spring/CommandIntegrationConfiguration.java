@@ -14,7 +14,6 @@ import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.jms.Jms;
-import org.springframework.integration.jms.JmsOutboundGateway;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -44,16 +43,16 @@ public class CommandIntegrationConfiguration {
 
   @Bean
   public IntegrationFlow jmsOutboundFlow(@Value("${eventBus.out.destination}") String destination) {
-    JmsOutboundGateway messageHandler = Jms.outboundGateway(connectionFactory)
-      .requestPubSubDomain(true)
-      .requestDestination(destination)
-      .get();
-    messageHandler.setRequiresReply(false);
     return IntegrationFlows
       .from(eventOut())
       .transform(toJson(new Jackson2JsonObjectMapper(objectMapper)))
       .enrichHeaders(h -> h.headerFunction(TYPE_ID, x -> ((Class) x.getHeaders().get(TYPE_ID)).getName(), true))
-      .handle(messageHandler)
+      .handle(Jms.outboundAdapter(connectionFactory)
+        .configureJmsTemplate(t -> t
+          .sessionTransacted(true)
+          .pubSubDomain(true))
+        .destination(destination)
+        .get())
       .get();
   }
 
