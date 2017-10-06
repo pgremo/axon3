@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 public class LoggingMessageMonitor implements MessageMonitor<Message<?>> {
   private final MonitorCallback callback = new MonitorCallback() {
     private Logger logger = LoggerFactory.getLogger(MessageMonitor.class);
+
     @Override
     public void reportSuccess() {
       logger.info("succeeded processing command");

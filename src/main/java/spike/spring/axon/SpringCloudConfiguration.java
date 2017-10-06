@@ -1,6 +1,6 @@
 package spike.spring.axon;
 
-import org.axonframework.boot.AxonAutoConfiguration;
+import org.axonframework.boot.autoconfig.JpaAutoConfiguration;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.distributed.*;
 import org.axonframework.serialization.Serializer;
@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 @ConditionalOnClass(SpringHttpCommandBusConnector.class)
 @ConditionalOnProperty("axon.distributed.spring.cloud.enabled")
-@AutoConfigureAfter(AxonAutoConfiguration.JpaConfiguration.class)
+@AutoConfigureAfter(JpaAutoConfiguration.class)
 @Configuration
 public class SpringCloudConfiguration {
   private Serializer serializer;
@@ -33,7 +33,7 @@ public class SpringCloudConfiguration {
   }
 
   @Bean
-  public RestTemplate restTemplate(){
+  public RestTemplate restTemplate() {
     return new RestTemplate();
   }
 

@@ -1,12 +1,12 @@
 package spike.jackson;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.axonframework.eventsourcing.eventstore.GapAwareTrackingToken;
 import spike.AggregateCreatedEvent;
 import spike.CreateAggregateCommand;
 import spike.FieldUpdatedEvent;
 import spike.UpdateAggregateCommand;
 import spike.jackson.axon.GapAwareTrackingTokenMixin;
-import org.axonframework.eventsourcing.eventstore.GapAwareTrackingToken;
 
 public class Axon3SpikeModule extends SimpleModule {
   public Axon3SpikeModule() {
