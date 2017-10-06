@@ -1,0 +1,41 @@
+plugins {
+  id 'org.springframework.boot' version '1.5.7.RELEASE'
+  id 'java'
+}
+
+group = 'spike'
+version = '1.0-SNAPSHOT'
+
+description = 'axon3spike'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+  mavenLocal()
+  jcenter()
+}
+
+dependencies {
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-activemq'
+  compile group: 'org.hibernate', name: 'hibernate-validator'
+  compile group: 'org.liquibase', name: 'liquibase-core'
+  compile group: 'com.h2database', name: 'h2'
+  compile group: 'org.springframework', name: 'spring-tx'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+  compile group: 'org.springframework.data', name: 'spring-data-commons'
+  compile group: 'org.springframework.integration', name: 'spring-integration-java-dsl'
+  compile group: 'org.springframework.integration', name: 'spring-integration-jms'
+  compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310'
+
+  compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-config', version: '1.3.3.RELEASE'
+  compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-eureka', version: '1.3.5.RELEASE'
+
+  compile group: 'org.axonframework', name: 'axon-spring-boot-starter', version: '3.0.6'
+  compile group: 'org.axonframework', name: 'axon-distributed-commandbus-springcloud', version: '3.0.6'
+
+  compile group: 'com.lmax', name: 'disruptor', version: '3.3.6'
+  testCompile group: 'junit', name: 'junit', version: '4.12'
+}
